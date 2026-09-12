@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hannimari Savola</title>
+  <style>
+    :root {
+      --blue:    #003580;
+      --blue2:   #002560;
+      --white:   #ffffff;
+      --offwhite:#f4f7fb;
+      --mid:     #5a6a7e;
+      --rule:    #d0dae8;
+      --ink:     #0d1a2a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 17px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3 {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      color: var(--blue2);
+      line-height: 1.1;
+    }
+    .label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue);
+    }
+
+    .container { max-width: 880px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 5.5rem 0; }
+    section + section { border-top: 1px solid var(--rule); }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--blue2);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+    }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    #hero {
+      background: var(--blue2);
+      padding-top: 8rem;
+      padding-bottom: 5.5rem;
+      border-top: none;
+    }
+    .hero-name {
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-rule {
+      width: 3rem;
+      height: 4px;
+      background: rgba(255,255,255,0.35);
+      margin-bottom: 1.75rem;
+    }
+    .hero-statement {
+      font-size: clamp(1rem, 1.8vw, 1.18rem);
+      color: rgba(255,255,255,0.82);
+      max-width: 660px;
+      line-height: 1.82;
+    }
+    .hero-statement strong { color: var(--white); font-weight: 700; }
+
+    .section-header { margin-bottom: 2.75rem; }
+    .section-header h2 {
+      font-size: clamp(1.7rem, 3.5vw, 2.5rem);
+      margin-top: 0.6rem;
+      letter-spacing: -0.01em;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .body-text p + p { margin-top: 1.2rem; }
+    .body-text p { color: #1a2a3a; }
+
+    .evidence-list { list-style: none; display: flex; flex-direction: column; gap: 1.75rem; }
+    .evidence-list li {
+      padding-left: 1.25rem;
+      border-left: 2px solid var(--rule);
+      transition: border-color 0.2s;
+    }
+    .evidence-list li:hover { border-left-color: var(--blue); }
+    .ev-title { font-weight: 700; font-size: 0.95rem; color: var(--blue2); margin-bottom: 0.25rem; }
+    .ev-body { font-size: 0.875rem; color: var(--mid); line-height: 1.65; }
+
+    .pillar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+    .pillar {
+      border-top: 3px solid var(--blue);
+      padding: 1.75rem 1.5rem;
+      background: var(--offwhite);
+    }
+    .pillar-title { font-weight: 700; font-size: 1rem; color: var(--blue2); margin-bottom: 0.6rem; }
+    .pillar-body { font-size: 0.85rem; color: var(--mid); line-height: 1.65; }
+
+    .research-item { padding: 2.25rem 0; border-bottom: 1px solid var(--rule); }
+    .research-item:last-child { border-bottom: none; }
+    .research-year {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .research-title { font-weight: 700; font-size: 1.05rem; color: var(--blue2); margin-bottom: 0.4rem; }
+    .research-body { font-size: 0.9rem; color: var(--mid); line-height: 1.7; max-width: 600px; }
+    .research-tag {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--blue);
+      border: 1px solid var(--blue);
+      padding: 0.2rem 0.65rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .pov-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .pov-card {
+      background: var(--offwhite);
+      border-top: 3px solid var(--blue);
+      padding: 2rem 1.75rem;
+    }
+    .pov-lead { font-weight: 700; font-size: 1rem; color: var(--blue2); margin-bottom: 0.75rem; line-height: 1.35; }
+    .pov-body { font-size: 0.875rem; color: #3a4a5a; line-height: 1.75; }
+
+    #origin { background: var(--offwhite); }
+    .origin-lead {
+      font-size: clamp(1rem, 1.8vw, 1.12rem);
+      color: var(--ink);
+      max-width: 720px;
+      line-height: 1.85;
+    }
+    .origin-lead strong { color: var(--blue2); }
+    .origin-lead p + p { margin-top: 1.3rem; }
+    .origin-facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+    .origin-fact {
+      background: var(--white);
+      border-top: 3px solid var(--blue);
+      padding: 1.5rem 1.25rem;
+    }
+    .origin-fact-title { font-weight: 700; font-size: 0.88rem; color: var(--blue2); margin-bottom: 0.3rem; }
+    .origin-fact-body { font-size: 0.82rem; color: var(--mid); line-height: 1.6; }
+
+    .sisu-block {
+      background: var(--blue2);
+      border-left: 4px solid rgba(255,255,255,0.25);
+      padding: 2.75rem 2.5rem;
+      margin-top: 3rem;
+    }
+    .sisu-quote {
+      font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.35;
+      margin-bottom: 0.5rem;
+    }
+    .sisu-attribution {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 1.25rem;
+      font-style: italic;
+    }
+    .sisu-body {
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.82;
+      max-width: 620px;
+    }
+
+    .life-block { display: flex; flex-direction: column; gap: 2rem; }
+    .life-text { font-size: 1rem; color: #1a2a3a; line-height: 1.8; max-width: 720px; }
+    .life-boxes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .hobby-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .hobby-item {
+      background: var(--offwhite);
+      padding: 1.1rem 1rem;
+      border-bottom: 2px solid var(--blue);
+    }
+    .hobby-title { font-weight: 700; font-size: 0.82rem; color: var(--blue2); margin-bottom: 0.2rem; }
+    .hobby-note { font-size: 0.78rem; color: var(--mid); line-height: 1.55; }
+
+    #noir { background: var(--blue2); }
+    #noir .label { color: rgba(255,255,255,0.45); }
+    #noir h2 { color: var(--white); }
+    #noir .body-text p { color: rgba(255,255,255,0.75); }
+    .noir-books { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2.5rem; }
+    .noir-book { border-left: 3px solid rgba(255,255,255,0.22); padding-left: 1.5rem; transition: border-color 0.2s; }
+    .noir-book:hover { border-left-color: var(--white); }
+    .noir-book-title { font-weight: 700; font-size: 1.1rem; color: var(--white); margin-bottom: 0.3rem; }
+    .noir-book-desc { font-size: 0.875rem; color: rgba(255,255,255,0.68); line-height: 1.65; }
+    .noir-book-status { font-size: 0.72rem; color: rgba(255,255,255,0.38); font-weight: 700; margin-top: 0.4rem; letter-spacing: 0.07em; text-transform: uppercase; }
+
+    .contact-line { font-size: 1.05rem; color: var(--mid); max-width: 580px; margin-bottom: 2.5rem; line-height: 1.8; }
+    .contact-links { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+    .contact-link {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--blue2);
+      text-decoration: none;
+      border-bottom: 2px solid var(--blue);
+      padding-bottom: 2px;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .contact-link:hover { color: var(--blue); }
+    .contact-divider { color: var(--rule); font-size: 1rem; }
+
+    footer {
+      background: var(--blue2);
+      color: rgba(255,255,255,0.38);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+    }
+
+    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 660px) {
+      nav { display: none; }
+      .two-col { grid-template-columns: 1fr; gap: 2.5rem; }
+      .pov-grid { grid-template-columns: 1fr; }
+      .pillar-grid { grid-template-columns: 1fr 1fr; }
+      .origin-facts { grid-template-columns: 1fr 1fr; }
+      .hobby-grid { grid-template-columns: 1fr 1fr; }
+      .sisu-block { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="#hero">Hannimari Savola</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#pov">Thinking</a></li>
+    <li><a href="#origin">Background</a></li>
+    <li><a href="#life">Life</a></li>
+    <li><a href="#noir">Writing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="container">
+    <div class="label" style="color:rgba(255,255,255,0.45); margin-bottom:1.5rem;">Risk · Resilience · Research · Nordic Noir</div>
+    <h1 class="hero-name">Hannimari<br>Savola</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-statement">
+      Risk strategist. Published researcher. Nordic noir author. Based in Frankfurt.<br><br>
+      I specialize in <strong>risk and resilience strategy, geopolitical risk, organizational advisory,
+      and ICT risk methodology</strong> for complex international environments.
+      More than a decade of building frameworks, leading teams through disruption,
+      and translating weak signals into decisions before they become crises.<br><br>
+      Everything else on this page explains why.
+    </p>
+  </div>
+</section>
+
+<section id="work">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">Professional Profile</span>
+      <h2>Risk, resilience, strategy, advisory.</h2>
+    </div>
+    <div class="body-text fade-in">
+        <p>
+          I am an architect. Not in the sense of having a corner office and strong opinions
+          about open-plan layouts, but in the sense that I build risk and resilience
+          infrastructure from the ground up, in environments where it does not yet exist,
+          under conditions that do not always make this easy.
+          This has been the pattern across every role I have held.
+        </p>
+        <p>
+          I work at the intersection of risk strategy, technology, and organizational behaviour.
+          My domain is the space between what an organization thinks its risk exposure is
+          and what it actually is. That gap is almost always larger than anyone is comfortable admitting,
+          and closing it requires a combination of methodology, systems thinking,
+          and the willingness to say things that are inconvenient to hear.
+          I have developed proprietary frameworks and published methodology in this space.
+          I have also spent considerable time explaining to people why their existing frameworks
+          are measuring the wrong things. Both activities are necessary.
+        </p>
+        <p>
+          My work spans enterprise risk, ICT risk, operational resilience, business continuity,
+          crisis management, geopolitical risk, and governance.
+          I move between strategic design and operational execution without losing the thread.
+          I develop methodology, translate complex risk signals for executive and board-level audiences,
+          and build the kind of frameworks that are meant to be used rather than filed.
+          I regularly advise at C-suite level. The title has not always matched the level of the work.
+          I have found this more motivating than frustrating.
+        </p>
+        <p>
+          I think in systems. I stay until the thing works.
+          I have solved problems that had been stalled for years,
+          not because I am uniquely gifted, but because I ask different questions
+          and do not stop when the first answer is inconvenient.
+        </p>
+      </div>
+
+    <div class="fade-in" style="margin-top:3rem; padding-top:2.5rem; border-top:1px solid var(--rule);">
+      <span class="label">Education</span>
+      <p style="margin-top:0.75rem; font-size:0.9rem; color:var(--mid); line-height:1.8;">
+        MSc Strategy and Management in International Organizations, Linköping University
+        (exchange: Macquarie University, Sydney) &nbsp;·&nbsp;
+        BSc International Business, Kymenlaakso University of Applied Sciences, Finland &nbsp;·&nbsp;
+        BA Business Administration, Averett University, United States &nbsp;·&nbsp;
+        Russian Trade Specialisation, Inzegon, St. Petersburg &nbsp;·&nbsp;
+        Universidad Argentina de la Empresa, Buenos Aires &nbsp;·&nbsp;
+        Finance, Universidade Federal de Santa Catarina, Florianópolis
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">Research and Methodology</span>
+      <h2>Ideas with evidence attached.</h2>
+    </div>
+    <div class="body-text fade-in" style="max-width:640px; margin-bottom:3rem;">
+      <p>
+        I don't separate professional practice from intellectual contribution.
+        The research I publish is the same thinking I bring to the work,
+        just with citations and a methodology section.
+        In 2019 I was already writing seriously about AI
+        before it became everyone's declared emergency.
+        Simply curious about where the signals were pointing.
+        Turns out they were pointing somewhere quite specific.
+      </p>
+    </div>
+    <div class="fade-in">
+      <div class="research-item">
+        <div class="research-year">2019</div>
+        <div class="research-title">Recruiters Just Wanna Have AI?</div>
+        <div class="research-body">
+          Research on the implications of AI in HR recruitment: algorithmic decision-making,
+          organizational trust, and the risks nobody was formally measuring yet.
+          Before the hype. Before the headlines. Just two researchers who thought
+          the question was worth taking seriously.
+        </div>
+        <span class="research-tag">Linköping University · 2019</span>
+      </div>
+      <div class="research-item">
+        <div class="research-year">2026</div>
+        <div class="research-title">PRISM-C: Propagation Risk Intelligence and Signal Mapping</div>
+        <div class="research-body">
+          A signal-based methodology for translating weak organizational indicators
+          into measurable, actionable risk intelligence, before those signals become crises.
+          Built from first principles because the existing frameworks were not asking
+          the right questions. Published on Zenodo. Also available at prismsignalsystem.com,
+          where the methodology lives in a form you can actually use.
+        </div>
+        <span class="research-tag">Zenodo · 2026</span>
+      </div>
+      <div class="research-item">
+        <div class="research-year">2026 · Under Review</div>
+        <div class="research-title">Closing the Incident, Not the Risk</div>
+        <div class="research-body">
+          Submitted to ISACA Journal, November/December 2026 "Transforming Technology" issue.
+          On why closing an incident ticket is not the same as resolving the underlying risk,
+          and what organizations systematically miss in the gap between the two.
+        </div>
+        <span class="research-tag">ISACA Journal · Under Review</span>
+      </div>
+      <div class="research-item">
+        <div class="research-year">Ongoing</div>
+        <div class="research-title">Active Research Portfolio</div>
+        <div class="research-body">
+          Current work spans AI intelligence continuity management, human resilience screening,
+          strategic risk telemetry for executive decision-making, and a synthesis paper on
+          organizational models for the AI era. Independent research.
+          What happens when you cannot stop asking the next question
+          and have the discipline to write it down properly.
+        </div>
+        <span class="research-tag">Independent Research</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pov">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">How I Think</span>
+      <h2>Some views, stated plainly.</h2>
+    </div>
+    <div class="pov-grid fade-in">
+      <div class="pov-card">
+        <div class="pov-lead">Risk exists to enable innovation, not to prevent it.</div>
+        <div class="pov-body">
+          Most organizations treat risk management as a defensive exercise.
+          This misses the point entirely. Good risk work makes a company secure enough
+          to take the bets that matter. It is the infrastructure of innovation.
+          The fact that this remains a minority view explains quite a lot about
+          the state of most organizations. I find this professionally frustrating
+          and personally very motivating. There is a lot of work still to do.
+        </div>
+      </div>
+      <div class="pov-card">
+        <div class="pov-lead">Every major failure leaves signals. We choose not to read them.</div>
+        <div class="pov-body">
+          Crises are rarely surprises. They are patterns that were visible, reported, or intuited,
+          and then ignored, misclassified, or buried under more comfortable information.
+          The skill is not crisis response. The skill is signal literacy.
+          Everything else is expensive damage control with a lessons-learned slide deck attached.
+        </div>
+      </div>
+      <div class="pov-card">
+        <div class="pov-lead">Resilience is not optimism. It is preparation.</div>
+        <div class="pov-body">
+          Resilient organizations are not cheerful about disruption. They are honest about it.
+          They have thought through the version of events nobody wants to plan for
+          and built the muscle memory in advance. Finland has a word for this:
+          kokonaisturvallisuus, comprehensive security. Less marketable than "agile."
+          Considerably more useful.
+        </div>
+      </div>
+      <div class="pov-card">
+        <div class="pov-lead">When people do well, the organization does well. This is not complicated.</div>
+        <div class="pov-body">
+          Organizations that discard human capacity through poor decisions or rigid structures
+          are making a risk management error. The strongest indicator of organizational resilience
+          is whether the people inside it are supported to be genuinely good at what they do.
+          Everything else follows. This is not idealism. It is systems thinking
+          applied to the part that organizations prefer not to measure.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="origin">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">Background</span>
+      <h2>Why I think this way.</h2>
+    </div>
+
+    <div class="origin-lead fade-in">
+      <p>
+        I grew up in Lahti, Finland, in the 1990s. Finland has maintained a doctrine of
+        comprehensive security (kokonaisturvallisuus) since the post-WWII era:
+        the idea that preparedness is a shared responsibility of government,
+        businesses, organisations, and citizens. It is not a policy most Finns read consciously.
+        It is background noise. You absorb it. You grow up understanding that
+        preparedness is not paranoia. It is the responsible default.
+      </p>
+      <p>
+        This is also a country that produced Nokia, leads in quantum computing research,
+        and built one of the world's best education systems from a position of
+        geographic and economic disadvantage. Fixing problems that were not supposed
+        to be your problem is a cultural reflex in Finland, not a professional specialisation.
+        I grew up diagnosing and repairing my own computers because that was the only way
+        to have a working one, and driving whatever was available, which in Lahti meant
+        mopeds and tractors before it meant anything else.
+        You learn to work with what exists rather than wait for something better to arrive.
+        None of this felt like a skill at the time. Later I understood it was exactly that,
+        and also a reasonable preview of a career in which "we have never done this before"
+        functions less as a warning and more as a starting point.
+      </p>
+      <p>
+        Russia was never abstract to me. As a child I visited through charity work,
+        helping at orphanages through an association.
+        In 2011 I studied Russian trade and language formally,
+        completing my Russian specialisation at Inzegon in St. Petersburg.
+        I have loved Russian culture throughout my life.
+        I have also watched, from close range, what happens when geopolitical risk
+        is treated as someone else's problem until it is not.
+        That proximity shapes how I read organizational risk signals today.
+      </p>
+      <p>
+        I also lived in Stockholm for roughly a decade.
+        Watching Finnish structured preparedness, Swedish consensus culture,
+        and Russia's entirely different relationship with institutional trust
+        from the inside gave me a comparative lens that no single-country career provides.
+      </p>
+      <p>
+        Life then took me further: Argentina, the US, Spain, Australia, eventually Germany.
+        Each country added a layer. Different systems, different failure modes,
+        different relationships between institutions and the people inside them.
+        The pattern underneath was usually the same.
+      </p>
+    </div>
+
+    <div class="origin-facts fade-in">
+      <div class="origin-fact">
+        <div class="origin-fact-title">Finnish Upbringing</div>
+        <div class="origin-fact-body">Comprehensive security as background noise. A country built on preparedness, engineering, and the productive refusal to accept that problems cannot be solved.</div>
+      </div>
+      <div class="origin-fact">
+        <div class="origin-fact-title">Russia, Up Close</div>
+        <div class="origin-fact-body">Childhood charity visits. Formal study in St. Petersburg, 2011. Russian trade and language specialisation. Culture loved. Geopolitics observed at close range.</div>
+      </div>
+      <div class="origin-fact">
+        <div class="origin-fact-title">Nordic Comparative Lens</div>
+        <div class="origin-fact-body">Finland, Sweden, and Russia as three distinct models of institutional trust and national resilience. Studied from the inside, not from a textbook.</div>
+      </div>
+      <div class="origin-fact">
+        <div class="origin-fact-title">International Career</div>
+        <div class="origin-fact-body">Finland, Sweden, Argentina, USA, Spain, Russia, Australia, Germany. International business, Latin American markets, Russian trade. Life can take you anywhere. It did.</div>
+      </div>
+      <div class="origin-fact">
+        <div class="origin-fact-title">Always Learning</div>
+        <div class="origin-fact-body">Six languages and counting. Licences, certifications, and qualifications across domains. The question is always: what if this turns out to matter?</div>
+      </div>
+      <div class="origin-fact">
+        <div class="origin-fact-title">Engineering Culture</div>
+        <div class="origin-fact-body">Nokia, quantum computing, world-class education built from disadvantage. Problem-solving as a cultural reflex, not a professional choice.</div>
+      </div>
+    </div>
+
+    <div class="sisu-block fade-in">
+      <div class="sisu-quote">"Be water, my friend."</div>
+      <div class="sisu-attribution">Bruce Lee</div>
+      <div class="sisu-body">
+        The water metaphor belongs to Bruce Lee, and before him to the Taoist tradition.
+        But sisu is the Finnish version: quieter, less poetic, and equally stubborn.
+        It means you do not announce that something is impossible.
+        You find out what it takes. You do it.
+        You do not make a performance of the difficulty.<br><br>
+        I have moved countries multiple times, learned languages under pressure,
+        built capabilities from scratch that organizations said they urgently needed
+        but had never actually started, and led situations I was handed without a briefing.
+        Sisu is not a personality trait. It is a decision, made repeatedly,
+        often quietly, usually when no one is watching.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="life">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">Outside the Office</span>
+      <h2>Everything else I have done.</h2>
+    </div>
+    <div class="life-block fade-in">
+
+      <p class="life-text">
+        Seventeen years of conservatory flute. Summers packing beverages at Hartwall.
+        Bar work, waitressing, coat checks at clubs.
+        A hunting licence at sixteen, not because I intended to hunt,
+        but because knowledge has unpredictable value and the question
+        "what if I need this someday" has never once led me wrong.
+        I have never gone hunting. I remain prepared to.
+      </p>
+
+      <p class="life-text">
+        Along the same lines: I also hold a truck licence and a motorcycle licence.
+        The reasoning is straightforward. If a situation ever requires me to drive anything
+        at short notice and at speed, I will not be the person standing in the car park
+        having a skills gap. Think of it as a personal continuity plan.
+        Jason Bourne would understand.
+      </p>
+
+      <p class="life-text">
+        I did Muay Thai for four years. I scuba dive. I sail, with both inland and sea licences.
+        I paint. I dance. I bungee jump on occasion, which is a sentence
+        I cannot believe I need to include on a professional website, and yet here we are.
+        In 2018 I ran the Padasjoki nakukymppi, a ten-kilometre race run without clothes,
+        which is exactly what it sounds like. A reporter happened to be there
+        and asked if he could write a story about it. I said yes. It appeared in Iltalehti.
+        I remain entirely unbothered by this, which probably tells you something
+        useful about my approach to reputational risk.
+      </p>
+
+      <p class="life-text">
+        I should also mention yoga. I genuinely disliked it. Sweaty hands, uncertain purpose.
+        But enough people said it was worth learning that I decided to investigate properly.
+        I booked a teacher training course from India without fully reading the details,
+        and arrived to discover I had signed up for Ashtanga training,
+        which is the most physically demanding yoga style in existence.
+        I completed it. I am now a qualified Ashtanga yoga teacher.
+        If you are going to learn something, you might as well learn it correctly.
+        This is a principle I apply consistently, sometimes against my own better judgment.
+      </p>
+
+      <p class="life-text">
+        I spent two months living with Buddhist monks in Thailand.
+        I learned a great deal about meditation. I did not agree with much else they said,
+        and I am now a qualified meditation trainer, which I consider a fair outcome.
+        You can take the methodology and leave the dogma.
+        This principle applies to more things than just meditation.
+      </p>
+
+      <p class="life-text">
+        I am always learning the next language. Currently six. The list is not finished.
+        I am also a board member of the Finnisch-Deutsch Handelsgilde in Frankfurt,
+        the Finnish-German trade guild, which is what happens when you move to Germany
+        and immediately find the Finns.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<section id="noir">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">Writing</span>
+      <h2>The fiction I write when the frameworks are not enough.</h2>
+    </div>
+    <div class="two-col">
+      <div class="body-text fade-in">
+        <p>
+          Nordic noir exists because some truths are easier to approach sideways.
+          I write stories at the intersection of institutional corruption,
+          human resilience, and the systems people build to protect each other
+          when the official ones will not.
+        </p>
+        <p>
+          Spending years studying how organizations fail gives you very good material
+          for crime fiction. Everything I have observed about what happens when bad decisions
+          at the top quietly become everyone else's operational problem
+          finds its way in eventually.
+          My protagonist would diagnose a crime scene the way I diagnose a risk register:
+          systematically, with mounting exasperation at the data management.
+        </p>
+        <p>
+          The writing is in Finnish. The themes are universal.
+          Corruption does not require translation.
+        </p>
+      </div>
+      <div class="noir-books fade-in">
+        <div class="noir-book">
+          <div class="noir-book-title">AKKATEMIA</div>
+          <div class="noir-book-desc">
+            A trilogy. Eeva is young, technically gifted, and trying to survive something
+            the system has already decided not to prosecute. What she finds buried in files
+            she was never meant to see is a corruption network reaching further than expected,
+            and a judge named Anja who decides, quietly, that law and justice
+            are occasionally different things. Book two moves to Tallinn.
+            The network does not stay tidy when someone starts pulling the thread.
+          </div>
+          <div class="noir-book-status">Trilogy · In progress</div>
+        </div>
+        <div class="noir-book">
+          <div class="noir-book-title">Financial Crime / Cross-Border</div>
+          <div class="noir-book-desc">
+            Next project. The systems that move money across borders
+            are also the systems that move everything else.
+            More when the time is right.
+          </div>
+          <div class="noir-book-status">In development</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="label">Contact</span>
+      <h2>Let's talk.</h2>
+    </div>
+    <p class="contact-line fade-in">
+      I am genuinely interested in hearing from people working on hard problems in risk,
+      resilience, geopolitics, or research. If something on this page made you think
+      "I want to talk to this person," that instinct is probably correct.
+      Reach out. I read everything and reply to the interesting ones,
+      which, based on the people who tend to find pages like this, is most of them.
+    </p>
+    <div class="contact-links fade-in">
+      <a class="contact-link" href="https://linkedin.com/in/hannimarisavola" target="_blank" rel="noopener">LinkedIn</a>
+      <span class="contact-divider">·</span>
+      <a class="contact-link" href="mailto:hannimari@prismsignalsystem.com">hannimari@prismsignalsystem.com</a>
+      <span class="contact-divider">·</span>
+      <a class="contact-link" href="https://prismsignalsystem.com" target="_blank" rel="noopener">prismsignalsystem.com</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Hannimari Savola &nbsp;·&nbsp; Lahti born, Frankfurt based, perpetually curious</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
